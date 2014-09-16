@@ -3,10 +3,10 @@
 # Author: Michael N. Rubinstein
 
 require 'rack'
-require 'main'
+require_relative 'hylowiki'
 
 
-app = Banter::App.new
+app = HyloWiki::App.new
 app = Rack::ShowExceptions.new(app)
 app = Rack::Reloader.new(app)
 app = Rack::ShowStatus.new(app)

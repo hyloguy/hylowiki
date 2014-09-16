@@ -7,9 +7,18 @@ Author: Michael N. Rubinstein
 <!doctype html>
 <html lang="en">
 <head>
-	<title></title>
+	<title>HyloWiki</title>
 </head>
 <body>
-
+    <h1>HyloWiki Pages</h1>
+    <h2>The Wiki of the Material Universe.</h2>
+    <div class="board">
+    <% page_versions.each do |page| %>
+        <div class="post">
+            <strong><%= page.author_id%></strong>
+            <%= markdown.render(page.title) %> - <a href="/pages/show?id=<%=page.id%>">Show</a> - <a href="/pages/edit?id=<%=page.id%>">Edit</a> - <a href="/pages/delete?id=<%=page.id%>">Delete</a>
+        </div>
+    <% end %>
+    </div>
 </body>
 </html>
