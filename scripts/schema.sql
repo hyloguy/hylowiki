@@ -4,8 +4,8 @@
 
 CREATE TABLE users (
 	id			INTEGER PRIMARY KEY,
-	username	VARCHAR(15),
-	password	VARCHAR(15),
+	username	VARCHAR(50),
+	password	VARCHAR(50),
 	fullname	VARCHAR(255),
 	email		VARCHAR(50)
 );

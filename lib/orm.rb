@@ -24,7 +24,40 @@ class ORM
     end
 
     def all(table)
-        results = @db.execute("select * from #{table}")
+        results = @db.execute("SELECT * FROM #{table}")
+
+        results.map do |row|
+            model = TABLE_CLASS_MAP[table]
+            model.new(row)
+        end
+    end
+
+    def save_user(user)
+        @db.execute <<-SQL, [user.username, user.id]
+            UPDATE users SET
+                username = ?
+            WHERE
+                id = ?
+        SQL
+    end
+
+    def find(table, id)
+        row = @db.get_first_row <<-SQL, [id]
+            SELECT *
+            FROM #{table}
+            WHERE id = ?
+        SQL
+
+        model = TABLE_CLASS_MAP[table]
+        model.new(row)
+    end
+
+    def find_by(table, column, value)
+        results = @db.execute <<-SQL, value
+            SELECT *
+            FROM #{table}
+            WHERE #{column} = ?
+        SQL
 
         results.map do |row|
             model = TABLE_CLASS_MAP[table]

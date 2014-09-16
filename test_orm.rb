@@ -12,6 +12,28 @@ def test_orm
 
     p users
     p page_versions
+
+
+    user = orm.find :users, 1
+
+    p "User with ID of 1:"
+    p user
+
+    user.username = 'bingo_the_cow'
+
+    orm.save_user user
+
+    bingo = orm.find :users, 1
+
+    p "User with ID of 1:"
+    p bingo
+
+    p orm.all :users
+
+    p "Seeking Melkur:"
+    p orm.find_by :users, :username, 'melkur'
+
+
 end
 
 

@@ -22,8 +22,7 @@ module HyloWiki
 			@orm = ORM.new
 			@markdown = Redcarpet::Markdown.new(
 				Redcarpet::Render::HTML,
-				autolink: true, hard_wrap: true, quote: true
-				)
+				autolink: true, hard_wrap: true, quote: true)
 		end
 
         def call(env)
@@ -38,7 +37,9 @@ module HyloWiki
                 case request.path_info
                 when '/', '/pages/index'
                     page_versions = @orm.all :page_versions
-                    r.write render('index', {page_versions: page_versions, markdown: @markdown})
+                    r.write render(
+                        'index', 
+                        {page_versions: page_versions, markdown: @markdown})
                 else
                     r.write "404'd..."
                     r.status = 404
