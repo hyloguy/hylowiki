@@ -1,3 +1,7 @@
+# hylowiki
+# GA WDI Project 1
+# Author: Michael N. Rubinstein
+
 require 'rack'
 require 'main'
 

@@ -1,11 +1,19 @@
+# hylowiki
+# GA WDI Project 1
+# Author: Michael N. Rubinstein
+
+require 'sqlite3'
+require 'user'
+require 'page_version'
+
 class ORM
 
     TABLE_CLASS_MAP = {
         :users => User,
-        :posts => Post
+        :page_versions => PageVersion
     }
 
-    DB_FILE = 'banter.db'
+    DB_FILE = 'hylowiki.db'
 
     def initialize
         delete_database_if_it_exists
@@ -42,11 +50,11 @@ class ORM
     end
 
     def load_schema
-        @db.execute_batch File.read('schema.sql')
+        @db.execute_batch File.read('scripts/schema.sql')
     end
 
     def load_data
-        @db.execute_batch File.read('data.sql')
+        @db.execute_batch File.read('scripts/data.sql')
     end
 
 end
