@@ -36,10 +36,12 @@ module HyloWiki
             Rack::Response.new do |r|
                 case request.path_info
                 when '/', '/pages/index'
-                    page_versions = @orm.all :page_versions
+                    page_titles = @orm.current_page_titles
+                    # binding.pry
                     r.write render(
                         'index', 
-                        {page_versions: page_versions, markdown: @markdown})
+                        # {page_titles: page_titles, markdown: @markdown})
+                        {page_titles: page_titles})
                 else
                     r.write "404'd..."
                     r.status = 404

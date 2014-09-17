@@ -8,16 +8,26 @@ Author: Michael N. Rubinstein
 <html lang="en">
 <head>
 	<title>HyloWiki</title>
-    <link rel="stylesheet" type="text/css" href="/public/style.css">
+    <link rel="stylesheet" type="text/css" href="/public/semantic_ui/css/semantic.min.css">
 </head>
 <body>
-    <h1>HyloWiki Pages</h1>
-    <h2>The Wiki of the Material Universe.</h2>
-    <div class="board">
-    <% page_versions.each do |page| %>
-        <div class="post">
-            <strong><%= page.author_id%></strong>
-            <%= markdown.render(page.title) %> - <a href="/pages/show?id=<%=page.id%>">Show</a> - <a href="/pages/edit?id=<%=page.id%>">Edit</a> - <a href="/pages/delete?id=<%=page.id%>">Delete</a>
+    <h1 class="ui purple header">
+        hylowiki
+        <div class="sub header">The Wiki of the Material Universe.</div>
+    </h1>
+    <h4 class="ui black block header">
+        Contents
+    </h4>
+    <div class="ui list">
+    <% page_titles.each do |page| %>
+        <div class="item">
+            <i class="text file icon"></i>
+            <div class="content">
+                <a class="header"><%= page.title %></a>
+                <div class="description">
+                    - <a href="/pages/show?id=<%=page.id%>">Show</a> - <a href="/pages/edit?id=<%=page.id%>">Edit</a> - <a href="/pages/delete?id=<%=page.id%>">Delete</a>
+                </div>
+            </div>
         </div>
     <% end %>
     </div>

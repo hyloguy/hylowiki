@@ -24,12 +24,32 @@ class ORM
     end
 
     def all(table)
-        results = @db.execute("SELECT * FROM #{table}")
+        results = @db.execute <<-SQL
+            SELECT *
+            FROM #{table}
+        SQL
 
         results.map do |row|
             model = TABLE_CLASS_MAP[table]
             model.new(row)
         end
+    end
+
+    def current_page_titles
+        arr = all_page_titles
+        arr
+            .uniq{|p| p.page_id}
+            .map { |p1| arr.select {|p2| p2.page_id == p1.page_id} }
+            .map { |a| a.max_by {|p| p.time_stamp} }
+    end
+
+    def all_page_titles
+        results = @db.execute <<-SQL
+            SELECT id, page_id, time_stamp, title
+            FROM page_versions
+        SQL
+
+        results.map {|row| PageVersion.new(row) }
     end
 
     def save_user(user)
