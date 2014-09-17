@@ -34,15 +34,16 @@ module HyloWiki
         def handle_request(request)
 
             Rack::Response.new do |r|
-                logged_in = true
+                active_user = nil
+                active_user = @orm.find :users, 1
                 case request.path_info
                 when '/', '/pages', '/pages/index'
                     page_titles = @orm.current_page_titles
                     r.write render(
-                        'index', 
-                        {page_titles: page_titles, logged_in: logged_in})
+                        'pages/index', 
+                        {page_titles: page_titles, active_user: active_user})
                 when '/pages/show'
-                    page = @orm.find :page_versions, request.GET["id"]
+                    page = @orm.find :page_versions, request.GET['id']
                     user = @orm.find :users, page.author_id
                     history = @orm
                         .find_by(:page_versions, :page_id, page.page_id)
@@ -54,15 +55,20 @@ module HyloWiki
                         .reverse
                     current = (page.id == history.first.id) ? true : false
                     r.write render(
-                        "show",
+                        'pages/show',
                         {
                             page: page,
                             user: user, 
                             history: history,
-                            logged_in: logged_in, 
+                            active_user: active_user, 
                             current: current,
                             markdown: @markdown
                         })
+                when '/pages/edit'
+                    page_titles = @orm.current_page_titles
+                    r.write render(
+                        'pages/edit', 
+                        {page_titles: page_titles, active_user: active_user})
                 else
                     r.write render('404')
                     r.status = 404

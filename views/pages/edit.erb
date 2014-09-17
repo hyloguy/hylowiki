@@ -1,0 +1,28 @@
+<!-- 
+hylowiki
+GA WDI Project 1
+Author: Michael N. Rubinstein
+ -->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<title>HyloWiki</title>
+    <link 
+        rel="stylesheet"
+        type="text/css"
+        href="/public/semantic_ui/css/semantic.min.css">
+</head>
+<body>
+    <h1 class="ui purple header">
+        <a href="/">hylowiki</a>
+        <div class="sub header">The Wiki of the Material Universe.</div>
+    </h1>
+    <h4 class="ui black block header">
+        <%= page.title %>
+    </h4>
+    <div class="ui primary segment">
+    	<p><%= markdown.render(page.body) %></p>
+    </div>
+</body>
+</html>

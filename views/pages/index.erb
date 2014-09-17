@@ -14,6 +14,24 @@ Author: Michael N. Rubinstein
         href="/public/semantic_ui/css/semantic.min.css">
 </head>
 <body>
+    <div class="ui menu">
+        <a class="active item" href="/">
+            <i class="home icon"></i> Home
+        </a>
+        <% if active_user %>
+            <a class="item" href="/pages/new">
+                <i class="edit icon"></i> Create New Article
+            </a>
+        <% end %>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
     <h1 class="ui purple header">
         hylowiki
         <div class="sub header">The Wiki of the Material Universe.</div>
@@ -24,7 +42,7 @@ Author: Michael N. Rubinstein
     <div class="ui divided list">
     <% page_titles.each do |page| %>
         <div class="item">
-            <% if logged_in %>
+            <% if active_user %>
                 <a href="/pages/edit?id=<%=page.id%>"><i class="edit link icon"></i></a>
             <% else %>
                 <i class="text file icon"></i>
@@ -35,5 +53,10 @@ Author: Michael N. Rubinstein
         </div>
     <% end %>
     </div>
+    <% if active_user %>
+        <div class="ui segment">
+            <p>You are currently logged in as <%= active_user.username %></p>
+        </div>
+    <% end %>
 </body>
 </html>
