@@ -39,7 +39,7 @@ Author: Michael N. Rubinstein
     </div>
     <div class="ui secondary segment">
     	<p>Edit by
-    		<%= user.username %>
+    		<%= page.author.username %>
     		at 
     		<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y") %>.</p>
     </div>
@@ -49,10 +49,10 @@ Author: Michael N. Rubinstein
     	<% end %>
     	<p>Page History:</p>
 	    <div class="ui list">
-	    	<% history.each do |page| %>
+	    	<% history.each do |p| %>
 	    		<a class="item" href="/pages/show?id=<%=page.id%>">
-	    			<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
-	    			by <%= page.author.username %>
+	    			<%= Time.at(p.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
+	    			by <%= p.author.username %>
 	    		</a>
 	    	<% end %>
 	    </div>

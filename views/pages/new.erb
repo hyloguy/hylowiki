@@ -14,15 +14,40 @@ Author: Michael N. Rubinstein
         href="/public/semantic_ui/css/semantic.min.css">
 </head>
 <body>
+    <div class="ui menu">
+        <a class="active item" href="/">
+            <i class="home icon"></i> Home
+        </a>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
     <h1 class="ui purple header">
-        <a href="/">hylowiki</a>
+        hylowiki
         <div class="sub header">The Wiki of the Material Universe.</div>
     </h1>
     <h4 class="ui black block header">
-        <%= page.title %>
+        New Wiki Page
     </h4>
-    <div class="ui primary segment">
-    	<p><%= markdown.render(page.body) %></p>
-    </div>
-</body>
+    <form action="/pages/create" method="POST">
+        <div class="ui form segment">
+            <div class="field">
+                <label>Title</label>
+                <input type="text" name="title">
+            </div>
+            <div class="field">
+                <label>Content</label>
+                <textarea name="contents"></textarea>
+            </div>
+            <input type="submit" class="ui blue submit button"></input>
+        </div>
+    </form>
+    <div class="ui segment">
+        <p>You are currently logged in as <%= active_user.username %></p>
+    </div></body>
 </html>

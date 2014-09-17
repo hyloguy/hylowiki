@@ -44,31 +44,34 @@ module HyloWiki
                         {page_titles: page_titles, active_user: active_user})
                 when '/pages/show'
                     page = @orm.find :page_versions, request.GET['id']
-                    user = @orm.find :users, page.author_id
-                    history = @orm
-                        .find_by(:page_versions, :page_id, page.page_id)
-                        .map {|page| 
-                            page.author = @orm.find(:users, page.author_id)
-                            page 
-                        }
-                        .sort_by {|page| page.time_stamp}
-                        .reverse
+                    page.author = @orm.find :users, page.author_id
+                    history = get_history(page)
                     current = (page.id == history.first.id) ? true : false
                     r.write render(
                         'pages/show',
                         {
                             page: page,
-                            user: user, 
                             history: history,
                             active_user: active_user, 
                             current: current,
                             markdown: @markdown
                         })
-                when '/pages/edit'
-                    page_titles = @orm.current_page_titles
-                    r.write render(
-                        'pages/edit', 
-                        {page_titles: page_titles, active_user: active_user})
+                when '/pages/new'
+                    if active_user
+                        page_titles = @orm.current_page_titles
+                        r.write render(
+                            'pages/new', 
+                            {page_titles: page_titles, active_user: active_user})
+                    else
+                        r.write render('404')
+                        r.status = 404                        
+                    end
+                when '/pages/create'
+                    if request.post?
+                        # post = Post.new(request.POST['author'],request.POST['contents'])
+                        # @posts.push post
+                        r.redirect '/'
+                    end
                 else
                     r.write render('404')
                     r.status = 404
@@ -80,6 +83,17 @@ module HyloWiki
             path = "views/"+name+".erb"
             file = File.read(path)
             Erubis::Eruby.new(file).result(locals)
+        end
+
+        def get_history(page)
+            @orm
+                .find_by(:page_versions, :page_id, page.page_id)
+                .map {|page| 
+                    page.author = @orm.find(:users, page.author_id)
+                    page 
+                }
+                .sort_by {|page| page.time_stamp}
+                .reverse
         end
     end
 end
