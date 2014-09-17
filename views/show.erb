@@ -25,10 +25,21 @@ Author: Michael N. Rubinstein
     	<p><%= markdown.render(page.body) %></p>
     </div>
     <div class="ui secondary segment">
-    	<p>Last modified by
+    	<p>Edit by
     		<%= user.username %>
     		at 
     		<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y") %>.</p>
+    </div>
+    <div class="ui secondary segment">
+    	<p>Page History:</p>
+	    <div class="ui list">
+	    	<% history.each do |page| %>
+	    		<a class="item" href="/pages/show?id=<%=page.id%>">
+	    			<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
+	    			by <%= page.author.username %>
+	    		</a>
+	    	<% end %>
+	    </div>
     </div>
 </body>
 </html>

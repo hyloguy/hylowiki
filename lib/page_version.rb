@@ -5,6 +5,7 @@
 class PageVersion
 
     attr_reader :id, :page_id, :author_id, :time_stamp, :title, :body
+    attr_accessor :author
 
     def initialize(data)
         @id = data['id']
@@ -13,6 +14,7 @@ class PageVersion
         @time_stamp = data['time_stamp']
         @title = data['title']
         @body = data['body']
+        @author = nil
     end
 
 end
