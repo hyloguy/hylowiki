@@ -31,6 +31,9 @@ Author: Michael N. Rubinstein
     		<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y") %>.</p>
     </div>
     <div class="ui secondary segment">
+    	<% if current %>
+    		<p>This page is the most current version.</p>
+    	<% end %>
     	<p>Page History:</p>
 	    <div class="ui list">
 	    	<% history.each do |page| %>

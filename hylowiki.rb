@@ -43,6 +43,7 @@ module HyloWiki
                         {page_titles: page_titles, logged_in: logged_in})
                 when '/pages/show'
                     page = @orm.find :page_versions, request.GET["id"]
+                    user = @orm.find :users, page.author_id
                     history = @orm
                         .find_by(:page_versions, :page_id, page.page_id)
                         .map {|page| 
@@ -51,7 +52,7 @@ module HyloWiki
                         }
                         .sort_by {|page| page.time_stamp}
                         .reverse
-                    user = @orm.find :users, page.author_id
+                    current = (page.id == history.first.id) ? true : false
                     r.write render(
                         "show",
                         {
@@ -59,6 +60,7 @@ module HyloWiki
                             user: user, 
                             history: history,
                             logged_in: logged_in, 
+                            current: current,
                             markdown: @markdown
                         })
                 else
