@@ -68,9 +68,15 @@ module HyloWiki
                         r.status = 404                        
                     end
                 when '/pages/create'
-                    if request.post?
-                        # post = Post.new(request.POST['author'],request.POST['contents'])
-                        # @posts.push post
+                    if request.post? && active_user
+                        new_page = PageVersion.new({
+                            'page_id' => @orm.get_highest_page_id + 1,
+                            'author_id' => active_user.id,
+                            'time_stamp' => Time.now.to_i,
+                            'title' => request.POST['title'],
+                            'body' => request.POST['contents']
+                            })
+                        @orm.store_new_page(new_page)
                         r.redirect '/'
                     end
                 else
