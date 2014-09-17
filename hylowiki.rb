@@ -36,6 +36,7 @@ module HyloWiki
             Rack::Response.new do |r|
                 active_user = nil
                 active_user = @orm.find :users, 1
+
                 case request.path_info
                 when '/', '/pages', '/pages/index'
                     page_titles = @orm.current_page_titles
@@ -45,7 +46,7 @@ module HyloWiki
                 when '/pages/show'
                     page = @orm.find :page_versions, request.GET['id']
                     page.author = @orm.find :users, page.author_id
-                    history = get_history(page)
+                    history = @orm.get_history(page)
                     current = (page.id == history.first.id) ? true : false
                     r.write render(
                         'pages/show',
@@ -85,15 +86,5 @@ module HyloWiki
             Erubis::Eruby.new(file).result(locals)
         end
 
-        def get_history(page)
-            @orm
-                .find_by(:page_versions, :page_id, page.page_id)
-                .map {|page| 
-                    page.author = @orm.find(:users, page.author_id)
-                    page 
-                }
-                .sort_by {|page| page.time_stamp}
-                .reverse
-        end
     end
 end

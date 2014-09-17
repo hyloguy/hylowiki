@@ -50,7 +50,7 @@ Author: Michael N. Rubinstein
     	<p>Page History:</p>
 	    <div class="ui list">
 	    	<% history.each do |p| %>
-	    		<a class="item" href="/pages/show?id=<%=page.id%>">
+	    		<a class="item" href="/pages/show?id=<%=p.id%>">
 	    			<%= Time.at(p.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
 	    			by <%= p.author.username %>
 	    		</a>
