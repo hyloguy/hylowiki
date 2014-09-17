@@ -19,16 +19,7 @@ Author: Michael N. Rubinstein
         <div class="sub header">The Wiki of the Material Universe.</div>
     </h1>
     <h4 class="ui black block header">
-        <%= page.title %>
+        Error 404: The page you requested does not (yet) exist.
     </h4>
-    <div class="ui primary segment">
-    	<p><%= markdown.render(page.body) %></p>
-    </div>
-    <div class="ui secondary segment">
-    	<p>Last modified by
-    		<%= user.username %>
-    		at 
-    		<%= Time.at(page.time_stamp).strftime("%T%p on %m/%d/%Y") %>.</p>
-    </div>
 </body>
 </html>

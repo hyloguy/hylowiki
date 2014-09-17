@@ -8,7 +8,10 @@ Author: Michael N. Rubinstein
 <html lang="en">
 <head>
 	<title>HyloWiki</title>
-    <link rel="stylesheet" type="text/css" href="/public/semantic_ui/css/semantic.min.css">
+    <link 
+        rel="stylesheet"
+        type="text/css"
+        href="/public/semantic_ui/css/semantic.min.css">
 </head>
 <body>
     <h1 class="ui purple header">
@@ -18,15 +21,16 @@ Author: Michael N. Rubinstein
     <h4 class="ui black block header">
         Contents
     </h4>
-    <div class="ui list">
+    <div class="ui divided list">
     <% page_titles.each do |page| %>
         <div class="item">
-            <i class="text file icon"></i>
+            <% if logged_in %>
+                <a href="/pages/edit?id=<%=page.id%>"><i class="edit link icon"></i></a>
+            <% else %>
+                <i class="text file icon"></i>
+            <% end %>
             <div class="content">
-                <a class="header"><%= page.title %></a>
-                <div class="description">
-                    - <a href="/pages/show?id=<%=page.id%>">Show</a> - <a href="/pages/edit?id=<%=page.id%>">Edit</a> - <a href="/pages/delete?id=<%=page.id%>">Delete</a>
-                </div>
+                <a class="header" href="/pages/show?id=<%=page.id%>"><%= page.title %></a>
             </div>
         </div>
     <% end %>

@@ -34,16 +34,21 @@ module HyloWiki
         def handle_request(request)
 
             Rack::Response.new do |r|
+                logged_in = true
                 case request.path_info
                 when '/', '/pages/index'
                     page_titles = @orm.current_page_titles
-                    # binding.pry
                     r.write render(
                         'index', 
-                        # {page_titles: page_titles, markdown: @markdown})
-                        {page_titles: page_titles})
+                        {page_titles: page_titles, logged_in: logged_in})
+                when '/pages/show'
+                    page = @orm.find :page_versions, request.GET["id"]
+                    user = @orm.find :users, page.author_id
+                    r.write render(
+                        "show",
+                        {page: page, user: user, logged_in: logged_in, markdown: @markdown})
                 else
-                    r.write "404'd..."
+                    r.write render('404')
                     r.status = 404
                 end
             end
