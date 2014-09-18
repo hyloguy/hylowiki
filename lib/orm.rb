@@ -17,9 +17,9 @@ class ORM
 
     # CONSTRUCTOR
     def initialize
-        connect_to_database             
+        new_db = connect_to_database             
         configure_database
-        load_schema
+        load_schema if new_db
     end
 
     # GENERIC METHODS FOR ALL MODELS
@@ -117,7 +117,12 @@ class ORM
     private
 
     def connect_to_database
+        new_db = true
+        if File.exist? DB_FILE
+            new_db = false
+        end
         @db = SQLite3::Database.new(DB_FILE)
+        return new_db
     end
 
     def configure_database
