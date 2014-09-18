@@ -42,8 +42,17 @@ class ORM
             WHERE id = ?
         SQL
 
+        return nil if row.nil?
         model = TABLE_CLASS_MAP[table]
         model.new(row)
+    end
+
+    def delete(table, id)
+        @db.execute <<-SQL, [id]
+            DELETE
+            FROM #{table}
+            WHERE id = ?;
+        SQL
     end
 
     def find_by(table, column, value)

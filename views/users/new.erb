@@ -34,37 +34,47 @@ Author: Michael N. Rubinstein
     <h4 class="ui black block header">
         Register New User
     </h4>
-    <p>Your username does not exist. Please fill out the following form to register for this site.</p>
-    <form action="/users/create" method="POST">
-        <div class="ui form segment">
-            <div class="field">
-                <label>Username</label>
-                <input type="text" name="username">
-            </div>
-            <div class="field">
-                <label>Password</label>
-                <input type="password" name="password">
-            </div>
-            <div class="field">
-                <label>Full Name</label>
-                <input type="text" name="fullname">
-            </div>
-            <div class="field">
-                <label>Email</label>
-                <input type="text" name="email">
-            </div>
-            <input type="submit" class="ui blue submit button"></input>
-        </div>
-    </form>
-    <div class="ui secondary segment">
-        <p>Currently registered users:</p>
-        <div class="ui list">
-            <% users.each do |u| %>
-                <div class="item">
-                    <i class="user icon"></i>
-                    <%= u.username %>
+    <div class="ui message">
+        <p>
+            Your username (if you typed one) does not exist. Please fill out the following form to register for this site.
+        </p>
+    </div>
+    <div class="ui two column grid">
+        <div class="twelve wide column">
+            <form action="/users/create" method="POST">
+                <div class="ui form segment">
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password">
+                    </div>
+                    <div class="field">
+                        <label>Full Name</label>
+                        <input type="text" name="fullname">
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="text" name="email">
+                    </div>
+                    <input type="submit" class="ui blue submit button"></input>
                 </div>
-            <% end %>
+            </form>
+        </div>
+        <div class="four wide column">
+            <div class="ui secondary segment">
+                <p>Currently registered users:</p>
+                <div class="ui list">
+                    <% users.each do |u| %>
+                        <div class="item">
+                            <i class="user icon"></i>
+                            <%= u.username %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
 </body>

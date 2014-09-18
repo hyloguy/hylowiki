@@ -7,22 +7,128 @@ Author: Michael N. Rubinstein
 <!doctype html>
 <html lang="en">
 <head>
-	<title>HyloWiki</title>
+    <title>HyloWiki</title>
     <link 
         rel="stylesheet"
         type="text/css"
         href="/public/semantic_ui/css/semantic.min.css">
 </head>
 <body>
+    <div class="ui menu">
+        <a class="active item" href="/">
+            <i class="home icon"></i> Home
+        </a>
+        <div class="text item">
+            <i class="user icon"></i> (Logged in as <%= active_user.username %>)
+        </div>
+        <a class="item" href="/logout">
+            <i class="sign out icon"></i> Logout
+        </a>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
     <h1 class="ui purple header">
-        <a href="/">hylowiki</a>
+        hylowiki
         <div class="sub header">The Wiki of the Material Universe.</div>
     </h1>
     <h4 class="ui black block header">
-        <%= page.title %>
+        Edit Wiki Page
     </h4>
-    <div class="ui primary segment">
-    	<p><%= markdown.render(page.body) %></p>
+    <div class="ui two column grid">
+        <div class="twelve wide column">
+            <form action="/pages/update" method="POST">
+                <div class="ui form segment">
+                    <div class="field">
+                        <label>Title</label>
+                        <input type="text" name="title" readonly="readonly"
+                            value="<%= page.title %>"></input>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <textarea style="min-height: 16em;" name="contents"><%= page.body %></textarea>
+                    </div>
+                    <input type="hidden" name="page_id"
+                        value="<%= page.page_id %>"></input>
+                    <input type="submit" class="ui blue submit button"></input>
+                </div>
+            </form>
+            <div class="ui segment">
+                <h4 class="ui purple block header">Format Guide</h4>
+                <table class="ui compact basic table">
+                    <thead><tr>
+                        <th>Description</th>
+                        <th>What you type</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Italic</td>
+                            <td><code>''Italic text''</code></td>
+                        </tr>
+                        <tr>
+                            <td>Bold</td>
+                            <td><code>'''Bold text'''</code></td>
+                        </tr>
+                        <tr>
+                            <td>Bold and italic</td>
+                            <td><code>'''''Bold and italic text'''''</code></td>
+                        </tr>
+                        <tr>
+                            <td>2nd level heading</td>
+                            <td><code>== Heading text ==</code></td>
+                        </tr>
+                        <tr>
+                            <td>3rd level heading</td>
+                            <td><code>=== Heading text ===</code></td>
+                        </tr>
+                        <tr>
+                            <td>4th level heading</td>
+                            <td><code>==== Heading text ====</code></td>
+                        </tr>
+                        <tr>
+                            <td>5th level heading</td>
+                            <td><code>===== Heading text =====</code></td>
+                        </tr>
+                        <tr>
+                            <td>Bulleted list</td>
+                            <td><code>* List item</code></td>
+                        </tr>
+                        <tr>
+                            <td>Numbered list</td>
+                            <td><code># List item</code></td>
+                        </tr>
+                        <tr>
+                            <td>External link</td>
+                            <td><code>[link text](http://website.com)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Internal link</td>
+                            <td><code>[[Page title]]</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div class="ui segment">
+                <h4 class="ui purple block header">Current Page Titles</h4>
+                <div class="ui list">
+                <% page_titles.each do |p| %>
+                    <div class="item">
+                        <i class="text file icon"></i>
+                        <div class="content">
+                            <div class="header"><%= p.title %></div>
+                        </div>
+                    </div>
+                <% end %>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

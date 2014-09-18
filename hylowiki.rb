@@ -43,29 +43,57 @@ module HyloWiki
                 case request.path_info
                 when '/', '/pages', '/pages/index'
                     page_titles = @orm.current_page_titles
+                    users = @orm.all :users
                     r.write render(
                         'pages/index', 
-                        {page_titles: page_titles, active_user: active_user})
+                        {
+                            page_titles: page_titles,
+                            users: users,
+                            active_user: active_user
+                        })
                 when '/pages/show'
                     page = @orm.find :page_versions, request.GET['id']
-                    page.author = @orm.find :users, page.author_id
-                    history = @orm.get_history(page)
-                    current = (page.id == history.first.id) ? true : false
+                    unless page.nil?
+                        page.author = @orm.find :users, page.author_id
+                        history = @orm.get_history(page)
+                        current = (page.id == history.first.id) ? true : false
+                        r.write render(
+                            'pages/show',
+                            {
+                                page: page,
+                                history: history,
+                                page_titles: @orm.current_page_titles,
+                                active_user: active_user, 
+                                current: current,
+                                markdown: @markdown
+                            })
+                    else
+                        r.write render('404')
+                        r.status = 404                        
+                    end
+                when '/pages/edit'
+                    page = @orm.find :page_versions, request.GET['id']
                     r.write render(
-                        'pages/show',
+                        'pages/edit',
                         {
                             page: page,
-                            history: history,
+                            page_titles: @orm.current_page_titles,
                             active_user: active_user, 
-                            current: current,
-                            markdown: @markdown
                         })
+                when '/pages/delete'
+                    if active_user
+                        @orm.delete :page_versions, request.GET['id']
+                    end
+                    r.redirect '/'
                 when '/pages/new'
                     if active_user
                         page_titles = @orm.current_page_titles
                         r.write render(
                             'pages/new', 
-                            {page_titles: page_titles, active_user: active_user})
+                            {
+                                page_titles: @orm.current_page_titles,
+                                active_user: active_user
+                            })
                     else
                         r.write render('404')
                         r.status = 404                        
@@ -74,6 +102,17 @@ module HyloWiki
                     if request.post? && active_user
                         @orm.store_new :page_versions, {
                             'page_id' => @orm.get_highest_page_id + 1,
+                            'author_id' => active_user.id,
+                            'time_stamp' => Time.now.to_i,
+                            'title' => request.POST['title'],
+                            'body' => request.POST['contents']
+                        }
+                        r.redirect '/'
+                    end
+                when '/pages/update'
+                    if request.post? && active_user
+                        @orm.store_new :page_versions, {
+                            'page_id' => request.POST['page_id'],
                             'author_id' => active_user.id,
                             'time_stamp' => Time.now.to_i,
                             'title' => request.POST['title'],

@@ -70,19 +70,36 @@ Author: Michael N. Rubinstein
     <h4 class="ui black block header">
         Contents
     </h4>
-    <div class="ui divided list">
-    <% page_titles.each do |page| %>
-        <div class="item">
-            <% if active_user %>
-                <a href="/pages/edit?id=<%=page.id%>"><i class="edit link icon"></i></a>
-            <% else %>
-                <i class="text file icon"></i>
+    <div class="ui two column grid">
+        <div class="twelve wide column">
+            <div class="ui divided list">
+            <% page_titles.each do |page| %>
+                <div class="item">
+                    <% if active_user %>
+                        <a href="/pages/edit?id=<%=page.id%>"><i class="edit link icon"></i></a>
+                    <% else %>
+                        <i class="text file icon"></i>
+                    <% end %>
+                    <div class="content">
+                        <a class="header" href="/pages/show?id=<%=page.id%>"><%= page.title %></a>
+                    </div>
+                </div>
             <% end %>
-            <div class="content">
-                <a class="header" href="/pages/show?id=<%=page.id%>"><%= page.title %></a>
             </div>
         </div>
-    <% end %>
+        <div class="four wide column">
+            <div class="ui secondary segment">
+                <p>Currently registered users:</p>
+                <div class="ui list">
+                    <% users.each do |u| %>
+                        <div class="item">
+                            <i class="user icon"></i>
+                            <%= u.username %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

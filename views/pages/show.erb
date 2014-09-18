@@ -18,6 +18,14 @@ Author: Michael N. Rubinstein
         <a class="active item" href="/">
             <i class="home icon"></i> Home
         </a>
+        <% if active_user %>
+            <div class="text item">
+                <i class="user icon"></i> (Logged in as <%= active_user.username %>)
+            </div>
+            <a class="item" href="/logout">
+                <i class="sign out icon"></i> Logout
+            </a>
+        <% end %>
         <div class="right menu">
             <div class="item">
                 <div class="ui icon input">
@@ -35,7 +43,7 @@ Author: Michael N. Rubinstein
         <%= page.title %>
     </h4>
     <div class="ui primary segment">
-    	<p><%= markdown.render(page.body) %></p>
+    	<p><%= markdown.render(page.processed_body(page_titles)) %></p>
     </div>
     <div class="ui secondary segment">
     	<p>Edit by
@@ -50,10 +58,16 @@ Author: Michael N. Rubinstein
     	<p>Page History:</p>
 	    <div class="ui list">
 	    	<% history.each do |p| %>
-	    		<a class="item" href="/pages/show?id=<%=p.id%>">
-	    			<%= Time.at(p.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
-	    			by <%= p.author.username %>
-	    		</a>
+                <div class="item">
+    	    		<a href="/pages/show?id=<%=p.id%>">
+    	    			<%= Time.at(p.time_stamp).strftime("%T%p on %m/%d/%Y ") %>
+    	    			by <%= p.author.username %>
+    	    		</a>
+                    <% if active_user %>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/pages/delete?id=<%=p.id%>">(Delete)</a>
+                    <% end %>
+                </div>
 	    	<% end %>
 	    </div>
     </div>
