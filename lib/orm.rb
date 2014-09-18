@@ -17,11 +17,9 @@ class ORM
 
     # CONSTRUCTOR
     def initialize
-        delete_database_if_it_exists    # REMOVE*
         connect_to_database             
         configure_database
-        load_schema                     # REMOVE*
-        load_data                       # REMOVE*
+        load_schema
     end
 
     # GENERIC METHODS FOR ALL MODELS
@@ -99,9 +97,10 @@ class ORM
     end
 
     def get_highest_page_id
-        @db.get_first_value <<-SQL
+        result = @db.get_first_value <<-SQL
             SELECT MAX(page_id) FROM page_versions;
         SQL
+        return result.nil? ? 0 : result
     end
 
     # SPECIFIC METHODS FOR USER MODEL
@@ -126,19 +125,8 @@ class ORM
         @db.results_as_hash = true
     end
 
-    # REMOVE THESE METHODS AFTER CREATE PAGE/USER ARE IMPLEMENTED
-    def delete_database_if_it_exists
-        if File.exist? DB_FILE
-            File.delete DB_FILE
-        end
-    end
-
     def load_schema
         @db.execute_batch File.read('scripts/schema.sql')
-    end
-
-    def load_data
-        @db.execute_batch File.read('scripts/data.sql')
     end
 
 end
