@@ -69,14 +69,21 @@ module HyloWiki
                     end
                 when '/pages/create'
                     if request.post? && active_user
-                        new_page = PageVersion.new({
+                        # new_page = PageVersion.new({
+                        #     'page_id' => @orm.get_highest_page_id + 1,
+                        #     'author_id' => active_user.id,
+                        #     'time_stamp' => Time.now.to_i,
+                        #     'title' => request.POST['title'],
+                        #     'body' => request.POST['contents']
+                        #     })
+                        # @orm.store_new_page(new_page)
+                        @orm.store_new :page_versions, {
                             'page_id' => @orm.get_highest_page_id + 1,
                             'author_id' => active_user.id,
                             'time_stamp' => Time.now.to_i,
                             'title' => request.POST['title'],
                             'body' => request.POST['contents']
-                            })
-                        @orm.store_new_page(new_page)
+                        }
                         r.redirect '/'
                     end
                 else

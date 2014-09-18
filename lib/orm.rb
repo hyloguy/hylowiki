@@ -61,6 +61,15 @@ class ORM
         end
     end
 
+    def store_new(table, hsh)
+        @db.execute <<-SQL, hsh.values
+            INSERT INTO #{table}
+                (#{hsh.keys.join(", ")})
+            VALUES
+                (#{hsh.keys.fill("?").join(", ")});
+        SQL
+    end
+
     # SPECIFIC METHODS FOR PAGE_VERSION MODEL
     def current_page_titles
         arr = all_page_titles
@@ -95,14 +104,14 @@ class ORM
         SQL
     end
 
-    def store_new_page(p)
-        @db.execute <<-SQL, [p.page_id, p.author_id, p.time_stamp, p.title, p.body]
-            INSERT INTO page_versions
-                (page_id, author_id, time_stamp, title, body)
-            VALUES
-                (?, ?, ?, ?, ?);
-        SQL
-    end
+    # def store_new_page(p)
+    #     @db.execute <<-SQL, [p.page_id, p.author_id, p.time_stamp, p.title, p.body]
+    #         INSERT INTO page_versions
+    #             (page_id, author_id, time_stamp, title, body)
+    #         VALUES
+    #             (?, ?, ?, ?, ?);
+    #     SQL
+    # end
 
     # SPECIFIC METHODS FOR USER MODEL
     def save_user(user)
