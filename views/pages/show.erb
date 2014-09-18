@@ -19,6 +19,11 @@ Author: Michael N. Rubinstein
             <i class="home icon"></i> Home
         </a>
         <% if active_user %>
+            <% if current %>
+                <a class="item" href="/pages/edit?id=<%=page.id%>">
+                    <i class="edit icon"></i> Edit this page
+                </a>
+            <% end %>
             <div class="text item">
                 <i class="user icon"></i> (Logged in as <%= active_user.username %>)
             </div>
