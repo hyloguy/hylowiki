@@ -30,8 +30,8 @@ def test_orm
 
     p orm.all :users
 
-    p "Seeking Melkur:"
-    p orm.find_by :users, :username, 'melkur'
+    p "Seeking Bingo:"
+    p orm.find_by :users, :username, 'bingo_the_cow'
 
 
 end
