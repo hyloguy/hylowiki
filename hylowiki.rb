@@ -81,12 +81,24 @@ module HyloWiki
                         }
                         r.redirect '/'
                     end
+                when '/users/new'
+                    users = @orm.all :users
+                    r.write render('users/new', {users: users})
+                when '/users/create'
+                    if request.post?
+                        @orm.store_new :users, {
+                            'username' => request.POST['username'],
+                            'password' => request.POST['password'],
+                            'fullname' => request.POST['fullname'],
+                            'email' => request.POST['email']
+                        }
+                        r.redirect '/'
+                    end
                 when '/login'
                     user = @orm.find_by(:users, :username, request.POST['username']).first
                     if user.nil?
-                        r.redirect '/register'
-                    end
-                    if user.password_is_correct?(request.POST['password'])
+                        r.redirect '/users/new'
+                    elsif user.password_is_correct?(request.POST['password'])
                         request.session['user_id'] = user.id
                         r.redirect '/'
                     else

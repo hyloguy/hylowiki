@@ -1,0 +1,71 @@
+<!-- 
+hylowiki
+GA WDI Project 1
+Author: Michael N. Rubinstein
+ -->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<title>HyloWiki</title>
+    <link 
+        rel="stylesheet"
+        type="text/css"
+        href="/public/semantic_ui/css/semantic.min.css">
+</head>
+<body>
+    <div class="ui menu">
+        <a class="active item" href="/">
+            <i class="home icon"></i> Home
+        </a>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="ui purple header">
+        hylowiki
+        <div class="sub header">The Wiki of the Material Universe.</div>
+    </h1>
+    <h4 class="ui black block header">
+        Register New User
+    </h4>
+    <p>Your username does not exist. Please fill out the following form to register for this site.</p>
+    <form action="/users/create" method="POST">
+        <div class="ui form segment">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <label>Full Name</label>
+                <input type="text" name="fullname">
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="text" name="email">
+            </div>
+            <input type="submit" class="ui blue submit button"></input>
+        </div>
+    </form>
+    <div class="ui secondary segment">
+        <p>Currently registered users:</p>
+        <div class="ui list">
+            <% users.each do |u| %>
+                <div class="item">
+                    <i class="user icon"></i>
+                    <%= u.username %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</body>
+</html>
