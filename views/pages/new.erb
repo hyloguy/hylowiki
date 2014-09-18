@@ -18,6 +18,12 @@ Author: Michael N. Rubinstein
         <a class="active item" href="/">
             <i class="home icon"></i> Home
         </a>
+        <div class="text item">
+            <i class="user icon"></i> (Logged in as <%= active_user.username %>)
+        </div>
+        <a class="item" href="/logout">
+            <i class="sign out icon"></i> Logout
+        </a>
         <div class="right menu">
             <div class="item">
                 <div class="ui icon input">
@@ -47,7 +53,5 @@ Author: Michael N. Rubinstein
             <input type="submit" class="ui blue submit button"></input>
         </div>
     </form>
-    <div class="ui segment">
-        <p>You are currently logged in as <%= active_user.username %></p>
-    </div></body>
+</body>
 </html>

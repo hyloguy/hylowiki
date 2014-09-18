@@ -34,8 +34,11 @@ module HyloWiki
         def handle_request(request)
 
             Rack::Response.new do |r|
-                active_user = nil
-                active_user = @orm.find :users, 1
+                if request.session['user_id']
+                    active_user = @orm.find :users, request.session['user_id']
+                else
+                    active_user = nil
+                end
 
                 case request.path_info
                 when '/', '/pages', '/pages/index'
@@ -69,14 +72,6 @@ module HyloWiki
                     end
                 when '/pages/create'
                     if request.post? && active_user
-                        # new_page = PageVersion.new({
-                        #     'page_id' => @orm.get_highest_page_id + 1,
-                        #     'author_id' => active_user.id,
-                        #     'time_stamp' => Time.now.to_i,
-                        #     'title' => request.POST['title'],
-                        #     'body' => request.POST['contents']
-                        #     })
-                        # @orm.store_new_page(new_page)
                         @orm.store_new :page_versions, {
                             'page_id' => @orm.get_highest_page_id + 1,
                             'author_id' => active_user.id,
@@ -86,6 +81,20 @@ module HyloWiki
                         }
                         r.redirect '/'
                     end
+                when '/login'
+                    user = @orm.find_by(:users, :username, request.POST['username']).first
+                    if user.nil?
+                        r.redirect '/register'
+                    end
+                    if user.password_is_correct?(request.POST['password'])
+                        request.session['user_id'] = user.id
+                        r.redirect '/'
+                    else
+                        r.write 'Incorrect password for that user.'
+                    end
+                when '/logout'
+                    r.delete_cookie 'rack.session'
+                    r.redirect '/'
                 else
                     r.write render('404')
                     r.status = 404

@@ -15,4 +15,8 @@ class User
         @email = data['email']
     end
 
+    def password_is_correct?(password)
+    	return password == @password
+    end
+
 end

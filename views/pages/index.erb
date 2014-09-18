@@ -22,6 +22,37 @@ Author: Michael N. Rubinstein
             <a class="item" href="/pages/new">
                 <i class="edit icon"></i> Create New Article
             </a>
+            <div class="text item">
+                <i class="user icon"></i> (Logged in as <%= active_user.username %>)
+            </div>
+            <a class="item" href="/logout">
+                <i class="sign out icon"></i> Logout
+            </a>
+        <% else %>
+            <div class="item">
+            <form action="/login" method="POST">
+                <div class="ui form">
+                    <div class="inline fields">
+                        <div class="inline field">
+                            <label>Login or register:</label>
+                            <div class="ui icon input">
+                                <input type="text" name="username" placeholder="Username" />
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <div class="ui icon input">
+                                <input type="password" name="password" placeholder="Password" />
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <input type="submit" value="Login" class="ui blue submit button"></input>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
         <% end %>
         <div class="right menu">
             <div class="item">
@@ -53,10 +84,5 @@ Author: Michael N. Rubinstein
         </div>
     <% end %>
     </div>
-    <% if active_user %>
-        <div class="ui segment">
-            <p>You are currently logged in as <%= active_user.username %></p>
-        </div>
-    <% end %>
 </body>
 </html>
