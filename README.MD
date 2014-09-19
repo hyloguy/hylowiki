@@ -10,10 +10,10 @@ To run:
 
 1. Install the following Ruby gems:
 
-- sqlite3
-- rack
-- redcarpet
-- erubis
+	- sqlite3
+	- rack
+	- redcarpet
+	- erubis
 
 2. Type this at your UNIX prompt:
 
