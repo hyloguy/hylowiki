@@ -9,19 +9,13 @@ There is no need for seed data to run this code. If the database does not exist,
 To run:
 
 1. Install the following Ruby gems:
-
 	- sqlite3
 	- rack
 	- redcarpet
 	- erubis
-
 2. Type this at your UNIX prompt:
-
 <code>export RUBYLIB=".:lib"</code>
-
 3. Now type:
-
 <code>rackup</code>
-
 4. Go to http://localhost:8080/ in your browser.
 
