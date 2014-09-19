@@ -7,8 +7,6 @@ require 'rack/request'
 require 'rack/response'
 require 'erubis'
 require 'redcarpet'
-require 'ap'
-require 'pry'
 
 # MY code:
 require 'orm'

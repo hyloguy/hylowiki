@@ -8,6 +8,12 @@ There is no need for seed data to run this code. If the database does not exist,
 
 To run:
 
+0. Install the following Ruby gems:
+- sqlite3
+- rack
+- redcarpet
+- erubis
+
 1. Type this at your UNIX prompt:
 
 <code>export RUBYLIB=".:lib"</code>

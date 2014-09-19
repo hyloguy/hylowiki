@@ -2,8 +2,6 @@
 # GA WDI Project 1
 # Author: Michael N. Rubinstein
 
-require 'pry'
-
 class PageVersion
 
     attr_reader :id, :page_id, :author_id, :time_stamp, :title, :body
