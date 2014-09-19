@@ -1,6 +1,6 @@
 # HyloWiki
-### WDI Fall 2014 Project #1
-### Author: Michael N. Rubinstein
+#### WDI Fall 2014 Project #1
+##### Author: Michael N. Rubinstein
 
 View the [Trello board](https://trello.com/b/k39v4gyc/hylowiki-ga-project-1) for this project!
 
